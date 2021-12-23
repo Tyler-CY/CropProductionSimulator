@@ -1,0 +1,340 @@
+\documentclass[fontsize=11pt]{article}
+\usepackage{amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.75in]{geometry}
+\usepackage{indentfirst}
+\usepackage{tablefootnote}
+
+\title{CSC110 Project: How climate change affects crop production in Canada}
+\author{Chun Yin YAN}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section*{Problem Description and Research Question}
+
+Climate change has affected many people and industries around the world. Extreme weather events brought by climate change particularly affects farmers, whose crop productions have been largely affected by this ever-changing climate.  Extreme climate events include surging temperature, droughts, and extended periods of frost days. These events will lead to a significant drop in crop yield, and cause damage to farming infrastructure, fields and farms\footnote{Climate change in Alberta. (n.d.). Retrieved November 02, 2020, from https://www.alberta.ca/climate-change-alberta.aspx}. \\
+
+As the world population grows exponentially, food supply has been a critical issue we have to face. As such, we found that it crucial to know how climate change is affecting the world's food supply. As one of the biggest crop-producing province in Canada\footnote{Government of Canada, S. (2018, March 23). Farm and Farm Operator Data Saskatchewan remains the breadbasket of Canada. Retrieved November 02, 2020, from https://www150.statcan.gc.ca/n1/pub/95-640-x/2016001/article/14807-eng.htm}, Alberta has faced many impacts of climate change in the past decades. \\
+
+Wheat, barley and canola made up the biggest portions of crop production in Alberta\footnote{Alberta WaterPortal. (n.d.). Retrieved November 02, 2020, from https://albertawater.com/virtualwaterflows/agriculture-in-alberta}\footnote{Crop statistics. (n.d.). Retrieved November 02, 2020, from https://www.alberta.ca/crop-statistics.aspx}. However, these crops are very vulnerable to climate changes. For example, although wheat production benefits under higher temperature, rainfall distribution and intensity can greatly affect the yield of wheat\footnote{Sudmeyer, R. (2020, June 15). How wheat yields are influenced by climate change in Western Australia. Retrieved November 02, 2020, from https://www.agric.wa.gov.au/climate-change/how-wheat-yields-are-influenced-climate-change-western-australia}. On the other hand, barley is prone to droughts and limited water supply in soil\footnote{Cammarano, D., Ceccarelli, S., Grando, S., Romagosa, I., Benbelkacem, A., Akar, T., . . . Ronga, D. (2019, March 19). The impact of climate change on barley yield in the Mediterranean basin. Retrieved November 02, 2020, from https://www.sciencedirect.com/science/article/abs/pii/S1161030119300243}, and heat and lack of rain can be aversive to canola production\footnote{Vernon, L., {\&}amp; Van Gool, D. (2006). Potential impacts of climate change on agricultural land use suitability : Canola. Retrieved November 02, 2020, from https://researchlibrary.agric.wa.gov.au/cgi/viewcontent.cgi?article=1284{\&}amp;context=rmtr#:~:text=Climate\%20change\%20in\%20WA\%20may,in\%20the\%20northern\%20agriculture\%20region.}. Alberta's production will certainly face many challenges in the near future. So the question is,\\
+
+\textbf{Research Question: how does climate change affects crop production in Alberta, Canada? And what will be future crop production of Alberta looks like?} \\
+
+After analysing the past trends of climate change events, including temperature, precipitation and frost days, as well as crop production in the past decades in Alberta, we would like to know how these extreme weather events caused by climate changes affect crop production. Moreover, we would predict crop production in this century using a custom prediction model.
+
+\section*{Dataset Description}
+All the datasets can be separated into two categories: weather and climate or crop production. \\	
+
+The datasets for weather are all obtained from climatedata.ca, which offers statistics on past trends of different weather parameters (mean temperature, rainfall) as well as future predictions. They provide insight on different parameters of climate of Alberta over the past 70 years, including hottest days, frost days and rainfall data. These data will also be the basis of the future climate event model, which can help to determine future crop production by correlating past climate changes to past crop production trends. All the datasets are available on the website as CSV files.\\
+
+The datasets of crop production are all obtained from open.canada.ca, which is a website of Government of Canada and offers statistics on past trends of different crops (barley, canola, wheat) (2005 to 2014). All the datasets are available only as XLSX files, so some pre-processing has been done to convert the files to CSV files for the data-processing algorithm to work.\\
+
+The following is the information of all the datasets we have collected for the project. Note that not all data are used in the project. 
+
+\begin{tabular}{||c|c|c|c||}
+    \hline
+    Name (Crop data) & Format & Source\\
+    \hline
+    table-83-all-wheat-acreage-and-production-for-alberta-census-divisions & XLSX & See References Data 6^8 \\
+    table-84-spring-wheat-acreage-and-production-for-alberta-census-divisions & XLSX & See References Data 2^8 \\
+    table-86-barley-acreage-and-production-for-alberta-census-divisions & XLSX & See References Data 3^8 \\
+    table-87-oats-acreage-and-production-for-alberta-census-divisions & XLSX & See References Data 4^8 \\
+    table-88-canola-acreage-and-production-for-alberta-census-divisions & XLSX & See References Data 5^8 \\
+    table-89-tame-hay-acreage-and-production-for-alberta-census-divisions & XLSX & See References Data 7^8 \\
+    \hline
+\end{tabular}
+\\
+
+
+Note that all crop data were originally in XLSX files. All the headers and blank rows were manually removed and the files were converted to CSV files. \\
+
+\begin{tabular}{||c|c|c|c||}
+    \hline
+    Name (Weather data) & Format & Source\\
+    \hline
+    Frost Day & CSV & See References Data 8^8\\
+    Hottest Day & CSV & See References Data 8^8\\
+    Wet Days 1mm & CSV & See References Data 8^8\\
+    \hline
+\end{tabular}
+\\
+
+
+The reference to the source can be found in the last section of this report, or at the bottom of this page. \footnote{\item Spring wheat source: Canada, Government of Alberta, Agriculture and Forestry. (2015). Spring Wheat Acreage and Production for Alberta Census Divisions. Retrieved November 4, 2020, from https://open.canada.ca/data/en/dataset/8ac5b6f3-acd1-4584-ab66-3e839a23c735
+    \item Barley source: SCanada, Government of Alberta, Agriculture and Forestry. (2015). Barley  Acreage and Production for Alberta Census Divisions. Retrieved November 4, 2020, from https://open.canada.ca/data/en/dataset/b164c813-21fc-4b8a-92f8-43c30281679e
+    \item Oats source: Canada, Government of Alberta, Agriculture and Forestry. (2015). Oats  Acreage and Production for Alberta Census Divisions. Retrieved November 4, 2020, from https://open.canada.ca/data/en/dataset/88ca88ff-b7fe-47ed-8680-2ccca4c4e331
+    \item Canola source: Canada, Government of Alberta, Agriculture and Forestry. (2015). Canola  Acreage and Production for Alberta Census Divisions. Retrieved November 4, 2020, from https://open.canada.ca/data/en/dataset/7e72cb89-6a90-4f0f-b4c3-1a23d13a3327
+    \item All wheat source: Canada, Government of Alberta, Agriculture and Forestry. (2015). All Wheat  Acreage and Production for Alberta Census Divisions. Retrieved November 4, 2020, from https://open.canada.ca/data/en/dataset/ffbcec87-dec8-4e52-9053-8c8804826a03
+    \item Tame hay source: Canada, Government of Alberta, Agriculture and Forestry. (2015). Tame Hay  Acreage and Production for Alberta Census Divisions. Retrieved November 4, 2020, from https://open.canada.ca/data/en/dataset/30e67b02-e977-416c-9326-dbad9b14e58e
+    \item All climate data source: Climtedata.ca. (2020). Alberta, AB. Retrieved December 13, 2020, from 
+    
+    https://climatedata.ca/ explore/location/?loc=IAQFZ}\\
+
+\section*{Computational Plan}
+\textbf{Computations:} \\
+
+In this project, there are two main computations that we perform on our data in order to answer the question of how climate change affects crop production in Canada.  \\
+
+The first computation is computing how the past crop production of Alberta fluctuates over a 10-year period. From the pre-processed CSV of crop production, we have three parameters recorded for each of the census division in Alberta (as well as Alberta as a whole): seeded acre (in thousands), yield per acre (in bushels) and total production (in thousand tonnes). We have come up with an algorithm that calculates the crop rating of a census division, which is essentially production per seeded acre (thousand tonnes per acre). This rating can accurately represent how much crop is harvested and retrieved after being seeded. By looking at this rating, we can see how well crop production was in the 10-year period. Since different crops have different crop ratings, we will be comparing the two things: how much the crop rating fluctuates and how much the crop rating of a census division differs from the mean. \\
+
+The second computation is simulating future crop production. Using the formula for calculating pearson correlation coefficient, we can get the relationship between the weather parameter and crop production in 2005 to 2014. The pearson correlation coefficient ranges from -1 to 1. A positive number means there is a positive relationship while a negative means there is a negative relationship. The larger is the magnitude of the number, the stronger is the relationship. Then, we will use this constant as a coefficient to plot a predicted graph of crop and weather trends from 2015 to 2100 using the formula for simple regression. Since we know how the weather is going to change in the future using data from climatedata.ca, we can plot a graph of the predicted trend of the crop production (in crop rating). This will form the basis of our simulation programme.\\
+
+\textbf{How the findings are reported:} \\
+
+All the findings are reported as an interactive program, which user can click and drag to look up information on how crops are affected by climate change in general, as well as past trends of how crop production changes from 2005-2014 and weather report from 1950 to 2070.
+The main part of the interactive program is created using pygame. In the interactive application, written information (facts, reports from various sources etc.) will be integrated and displayed on the screen, while buttons allow users to view the graphs in an interactive way.  Users can click, scroll and drag to change the settings, and view past trends of a specific crop production of a census division in Alberta or weather events in a specific period, as well as viewing future crop and weather events at the same time in the interactive menu. There will be a side-by-side annotation on the main application window which explains the data and help the users understand what the graphs represent. \\
+
+\textbf{Libraries, Functions, Data types used:}\\
+
+The external python libraries used are matplotlib, numpy (come together with matplotlib) and pygame.\\
+
+\begin{tabular}{||c|c||}
+    \hline
+    Python files (Weather data) & Purpose \\
+    \hline\hline
+    crop\_data.py & reading crop data and algorithm \\
+    \hline
+    weather\_data.py & reading weather data and algorithm \\
+    \hline
+    plot\_graph.py & plotting graphs \\
+    \hline
+    app.py & interactive application interface \\
+    \hline
+    main.py & open this file to start app \\
+    \hline
+    prompt.py & contains additional information to be displayed on the app \\
+    \hline
+\end{tabular}
+
+\begin{tabular}{||c|c|c||}
+    \hline
+    Useful functions (Weather data) & Location & Purpose \\
+    \hline\hline
+    get\_crop\_rating & crop\_data.py & Calculate the crop rating \\
+    \hline
+    six\_crop\_rating & crop\_data.py & Automically calculate all six crop ratings\\
+    \hline
+    get\_weather\_data & weather\_data.py & Filter weather data into three periods \\
+    \hline
+    wanted\_column & weather\_data.py & Return the weather data of a specific parameter, &&& period, mode, and scenario \\
+    \hline
+    plot\_graph & plot\_graph.py & Plot crop graph \\
+    \hline
+    plot\_column & plot\_graph.py & Plot weather data of a specific parameter, &&& period, mode, and scenario \\
+    \hline
+    simulate & plot\_graph.py & Calculate correlation between weather and crop rating,&&& and return a linear regression model \\
+    \hline
+    mix\_subplots & plot\_graph.py & Plot two parameters onto two graphs in the same window \\
+    \hline
+    main\_menu & app.py & The main menu of the application \\
+    \hline
+    future\_prediction & app.py & The page about weather events\\
+    \hline
+    past\_crop & app.py & The page about crop production \\
+    \hline
+    interactive & app.py & The interactive page of the application \\
+    \hline
+    Button (class) & app.py & Creates a button with changing text \\
+    \hline
+\end{tabular} \\
+
+\textbf{Reading data:}\\
+
+First, the data we collected for crop production in Alberta are in XLSX files, while the data for Alberta’s past weather are in CSV files. We first transform XLSX files into CSV files manually by cutting and pasting the data part (excluded the header) into a CSV file. Using the python preinstalled functions, we read the CSV files and generate a table in crop\_data.py and weather\_data.py. The crop data are separated by crop type, census divisions and year, while the weather data are separated by year into three periods: 1950-2004, 2005-2014, 2015-2100. \\
+
+Afterward, we created an algorithm which calculates how well the crop production were throughout the 10-year period in Alberta, and came up with a simple definition of “crop rating”, which is essentially “tonnes of crop harvested per acre”. As for the weather data, we have created an algorithem which filters the data into a specific period of time, mode and scenario. \\
+
+\textbf{Plotting data:}\\
+
+We use matplotlib as the module for plotting out the trend of weather and crop yield in Alberta.\\
+
+The main function for plotting weather graphs is plot\_column in plot\_graph.py, which takes in a tuple containing the following in this order: filename, period (1950-2004, 2005-2014, or 2015-2100), mode (min, max or median) and the emission scenario (RCP 2.6, 4.5 or 8.5; higher number indicates high emission). \\
+
+This function can be called in our interactive application app, made with pygame (more details in next section). By choosing the above available options, a different graph can be plotted and shown to the user.\\
+
+The main function for plotting crop yield graphs is plot\_graph in plot\_graph.py, which takes in a tuple containing the following in this order: crop type and census division wanted. \\
+
+This function can be called in our interactive application app, made with pygame (more details in next section). By choosing the above available options, a different graph can be plotted and shown to the user.\\
+
+\textbf{Interactive application:}\\
+
+The main interactive application is created using pygame. When the application runs, a main menu screen will appear. \\
+
+The functions main\_menu, future\_predictions, past\_crop, interactive correspondings to the main menu page, Future Weather page, Past Crop Production page, and Interactive Page. The functions crop and weather for calling the graphs for crop and weather respectively.\\
+
+\section*{Instructions}
+\begin{enumerate}
+    \item Download all files.
+    \item Install Python 3.8 and install all Python libraries listed under a requirements.txt file.
+    \item Make sure you have installed matplotlib, numpy and pygame. (You should have done this in step 1)
+    \subitem a. if you haven't, go to the terminal in PyCharm and enter the following, one by one: "pip install matplotlib", "pip install pygame". 
+    \subitem b. Enter "pip uninstall numpy" and "pip install numpy" if any file for numpy is missing. (installing matplotlib should automatically install numpy) 
+    \item Move main.py into the "main folder" if main.py is not there. In the folder, you should find the following items:
+    \subitem - app.py
+    \subitem - crop\_data.py
+    \subitem - main.py
+    \subitem - plot\_graph.py
+    \subitem - prompt.py
+    \subitem - weather\_data.py
+    \subitem - data (folder)
+    \subitem - images (folder)
+    \item Run the file main.py. A pygame window should pop up. 
+    \item What you are seeing in the new window is the main menu. There are several buttons at the top and at the bottom.
+    \subitem a. Press “Future Weather” to access weather information. For more information, read point 4.
+    \subitem b. Press “Interactive” to access how climate affects crop production in the future. For more information, read point 5.
+    \subitem c. Press “Past Crop Production” to access past crop production in Alberta from 2005 to 2014. For more information, read point 6.
+    \subitem d. Press “Credits” to access all references used when making this application/project. For more information, read point 7.
+    \subitem e. Press “QUIT” to exit the application.
+    \item When you are in the “Future Weather” page,
+    \subitem - Click on any buttons to access that weather data, or ESC to go back to the previous page.
+    \subitem - If you clicked into any of the three buttons, you will now be in a new page.
+    \subitem - Click “1950-2004” to change the period of the data shown.
+    \subitem - Click “Median” to change the mode of the data shown.
+    \subitem - Click “RCP 2.6” to change the emission scenario of the data shown.
+    \subitem - Click “GRAPH” to see the graph corresponding to your choice. A new window which shows the graph should pop up. Additional information can be viewed in the original window.
+    \item When you are in the “Interactive” page,
+    \subitem - Click “Temperature” to change the weather parameter.
+    \subitem - Click “All\_wheat” to change the crop type.
+    \subitem - Click “1950-2004” to change the period of the data shown.
+    \subitem - Click “Median” to change the mode of the data shown.
+    \subitem - Click “RCP 2.6” to change the emission scenario of the data shown.
+    \subitem - Click “GRAPH” to see the graph corresponding to your choice. A new window which shows the graph should pop up. Additional information can be viewed in the original window.    
+    \item When you are in the “Past Crop Production” page,
+    \subitem - Click on any buttons to access that crop data, or ESC to go back to the previous page.
+    \subitem - If you clicked into any of the three buttons, you will now be in a new page.
+    \subitem - Click and drag the purple slide to select the Census Division. 
+    \subitem - Click “GRAPH” to see the graph corresponding to your choice. A new window which shows the graph should pop up. Additional information can be viewed in the original window.
+    \item When you are in the “Credits” page,
+    \subitem - View any references here, or press ESC on your keyboard to exit to the main menu.
+    \item If you encounter any issues when using the application. Exit the application via the “Stop console” button in PyCharm and reload the application. You can safely ignore all warnings in the python console.
+\end{enumerate}
+
+\section*{Features}
+\begin{itemize}
+    \item Look up past crop production: by accessing the “Crop Production” tab, user can see crop production of a specific census division in Alberta in a specific year (2005 – 2014). Additional description is provided to assist the user in understanding the general trend and years that have a significant change (or turning points).
+    \item Look up past climate changes: by accessing the “Weather and Climate” tab, user can see trends of different weather parameters recorded in Alberta starting from 1950. Additional description is provided to assist the user in understanding the general trend and years that have a significant change (or turning points).
+    \item Predict future crop production: by accessing the “Predict Crop Productions” tab, user can choose a crop and a weather parameter, then select the weather condition or changes wanted. A graph will then show the crop production prediction of the chosen crop based on the weather parameter. Different weather conditions exert a variety of effects in different extent to the crop production, so choosing different weather conditions when choosing a weather parameter will result in different crop production predictions! 
+    \item All references for the information in the application can be found in the References section of this report.
+\end{itemize}
+
+\section*{Changes after Proposal}
+There are only minor changes to the project plan compared to the proposal submitted. The research question is slightly changed so that the question can be more precise and explained more thoroughly by the computations on the datasets we have obtained. 
+
+\section*{Discussion}\\
+\textbf{Findings:} \\
+
+Using the interactive application, we can view past and future weather events, and past crop yield of each census division of Alberta. Moreover, we can view simulate crop production of the chosen census division will be like when a specific scenario and climate parameter is applied. In the finding section, we will summarize the findings based on all census division on the whole, for simplicity and accuracy (more data increases accuracy).
+
+(How the algorithm and computation is done is described in the computation section) \\
+
+To begin with, let's look at the general trends of crop-weather interactions. \\
+
+First, let's look at the predicted production of wheat. From the graph of wheat/temperature-year graph (census division: all, mode: median, scenario: RCP 2.6), we can see that when the temperature goes up, the production of wheat decreases significantly. The production of wheat plummets when RCP 8.5 is simulated, meaning the greenhouse effect is much more stronger than the present. From the graph of wheat/frost-year graph (census division: all, mode: median, scenario: RCP 2.6), we can see that when the number of frost days goes up, the production of wheat decreases just slightly. This may be due to the fact that wheat is not grown during winter, so the number of frost days do not affect wheat as much as temperature does, however, since the number of frost days increases, frost days may spread out in a long period, then there may a high chance that during growing crops, frost weather may adversely affect crop growth. From the graph of wheat/precipitation-year graph (census division: all, mode: max, scenario: RCP 8.5), we can see that when the amount of rainfall goes up, the production of wheat decreases significantly. This may be due to the fact that excess rain may flood soil, so the wheat will receive insufficient nutrients and oxygen \footnote{Canada's Wheat Primed for Climate Adaptation. (n.d.). Retrieved December 07, 2020, from https://gro-intelligence.com/insights/articles/canada-wheat-climate-change}. Moreover, rain may wash away soil minerals and humus\footnote{Samus, R. (1998, March 15). Rains Wash Away Soil's Nutrients. Retrieved December, 2020, from https://www.latimes.com/archives/la-xpm-1998-mar-15-re-29095-story.html}, so most crop, including wheat, may be affected.
+(Note that similar trends are recorded in most of the other modes and scenarios.) \\
+
+Second, from the graphs of barley/precipitation-year in mode: max and scenario RCP 2.6 or RCP 8.5, the crop rating of barley stays relative stable, when the rainfall predicted is stable throughout the future decades. However, in mode min and any scenarios, the crop rating of barley in fact fluctuates a lot since the amount of rainfall predicted varies a lot year by year. A similar result can be obtained from the graphs of barley/frost-year, which reflects that less cold days may contribute to a higher barley crop production. When we simulate the interactions of temperature and barley growth, we can see that the crop rating of barley actually is significantly affected by temperature. A sharp increase in temperature causes a big drop in barley yield. One interesting thing is from this setting: census division: all, mode: min, scenario: RCP 8.5, where the temperature increases gradually and just around 6 degrees in 85 years. In this setting, the crop rating of barley actually stays extremely stable. This may be due to the fact that barley is adaptive to the weather and a gradual increase in temperature can stabilize barley growth \footnote{Pascoe, J. (2020, February 03). How barley is expected to benefit from climate change. Retrieved December 07, 2020, from https://www.ualberta.ca/science/news/2017/november/barley-crops-climate-change.html}.
+(Note that similar trends are recorded in most of the other modes and scenarios.) \\
+
+Third, let's look at the predicted production of canola. As we mentioned in the program, canola is well known to be able to compensate for adverse weather conditions, from dry conditions and extreme cold temperature \footnote{Weather impacts on canola quality. (2019, April 04). Retrieved December 07, 2020, from https://www.topcropmanager.com/weather-impacts-on-canola-quality-21346/}. From the graph of canola/precipitation-year graph (census division: all, mode: median, scenario: RCP 2.6) and canola/frost-year graph of wheat/temperature-year graph (census division: all, mode: median, scenario: RCP 2.6), the crop rating from 2015 to 2100 is mostly around a fix value within $\pm 0.1$. This can reflect that the crop production is fairly stable and is not affected by the changing weather conditions as much as other typical plants and crops \footnote{Weather impacts on canola quality. (2019, April 04). Retrieved December 07, 2020, from https://www.topcropmanager.com/weather-impacts-on-canola-quality-21346/}. Nonetheless, canola yield rating fluctuates a lot when the temperature is changing rapidly, as seen in graphs of different modes and different scenarios.
+(Note that similar trends are recorded in most of the other modes and scenarios.)\\
+
+\textbf{Limitations:}\\
+
+Although change in weather conditions due to climate change can greatly affect crop production, crop yield can also be affected by many factors, including human factor, diseases, pest, and the environment that they grow in. Thus, although the trend of crop production correlates to the change in climate, we cannot accurately determine future crop production just by viewing climate change alone. (Correlation does not mean causation). Nonetheless, since the weather parameters that we picked are considered to be the most influential on the crops we chose (as explained in Problem Description), we can safely use this interactive application to help us understand how climate change can affect crop production in the long time. Note that in order to get more accurate results, we should explore more parameters and factors which are suspected to affect crop yield (see next subsection for more information).\\
+
+\textbf{Next Steps:}\\
+
+To get more accurate predictions on future crop yields, we can compare crop production trend with other factors, such as pest, soil fertility and such, and find out their correlation coefficient, which measures how strong the pair affects each other. Then, we can find out the weighted average of effects of these factors using the correlation coefficients. With data on these external factors, it is possible to come up with an algorithm such that future crop productions can be predicted.
+
+
+
+
+
+
+
+
+
+\section*{References}
+\textbf{Research References:}\\
+\begin{enumerate}
+    \item Climate change in Alberta. (n.d.). Retrieved November 02, 2020, from https://www.alberta.ca/climate-change-alberta.aspx
+    \item Government of Canada, S. (2018, March 23). Farm and Farm Operator Data Saskatchewan remains the breadbasket of Canada. Retrieved November 02, 2020, from https://www150.statcan.gc.ca/n1/pub/95-640-x/2016001/article/14807-eng.htm
+    \item Alberta WaterPortal. (n.d.). Retrieved November 02, 2020, from
+    
+    https://albertawater.com/virtualwaterflows/agriculture-in-alberta
+    \item Crop statistics. (n.d.). Retrieved November 02, 2020, from https://www.alberta.ca/crop-statistics.aspx
+    \item Sudmeyer, R. (2020, June 15). How wheat yields are influenced by climate change in Western Australia. Retrieved November 02, 2020, from
+    
+    https://www.agric.wa.gov.au/climate-change/how-wheat-yields-are-influenced-climate-change-western-australia
+    \item Cammarano, D., Ceccarelli, S., Grando, S., Romagosa, I., Benbelkacem, A., Akar, T., . . . Ronga, D. (2019, March 19). The impact of climate change on barley yield in the Mediterranean basin. Retrieved November 02, 2020, from https://www.sciencedirect.com/science/article/abs/pii/S1161030119300243
+    \item Vernon, L., {\&}amp; Van Gool, D. (2006). Potential impacts of climate change on agricultural land use suitability : Canola. Retrieved November 02, 2020, from https://researchlibrary.agric.wa.gov.au/cgi/viewcontent.cgi?
+    article=1284{\&}amp;context=rmtr\#:~:text=Climate\%20change\%20in\%20WA\%20may,in\%20the\%20northern
+    \%20agriculture\%20region.
+    \item Samus, R. (1998, March 15). Rains Wash Away Soil's Nutrients. Retrieved December, 2020, from \newline
+    https://www.latimes.com/archives/la-xpm-1998-mar-15-re-29095-story.html
+    \item Martin Nagelkirk, M. (2018, October 02). Excessive rains may lead to a loss of nitrogen in wheat fields. Retrieved December, 2020, from \newline https://www.canr.msu.edu/news/excessive\_rains\_may\_lead\_to\_\ a\_loss\_of\_nitrogen\_in\_wheat\_fields
+    \item Canada's Wheat Primed for Climate Adaptation. (n.d.). Retrieved December 07, 2020, from https://gro-intelligence.com/insights/articles/canada-wheat-climate-change
+    \item How wheat yields are influenced by climate change in Western Australia. (n.d.). Retrieved December 07, 2020, from https://www.agric.wa.gov.au/climate-change/how-wheat-yields-are-influenced-climate-change-western-australia
+    \item Staff, S. (2017, June 16). Temperature variability and wheat quality. Retrieved December 07, 2020, from https://phys.org/news/2017-06-temperature-variability-wheat-quality.html
+    \item Cammarano, D., Hawes, C., Squire, G., Holland, J., Rivington, M., Murgia, T., . . . Ronga, D. (2019, July 02). Rainfall and temperature impacts on barley (Hordeum vulgare L.) yield and malting quality in Scotland. Retrieved December 07, 2020, from https://www.sciencedirect.com/science/article/pii/S0378429019307877
+    \item Pascoe, J. (2020, February 03). How barley is expected to benefit from climate change. Retrieved December 07, 2020, from
+    
+    https://www.ualberta.ca/science/news/2017/november/barley-crops-climate-change.html
+    \item Weather impacts on canola quality. (2019, April 04). Retrieved December 07, 2020, from
+    
+    https://www.topcropmanager.com/weather-impacts-on-canola-quality-21346/
+    \item Definition of Terms Used Within the DDC Pages. (n.d.). Retrieved December 07, 2020, from https://www.ipcc-data.org/guidelines/pages/glossary/glossary\_r.html
+\end{enumerate}
+
+\textbf{Data:}\\
+
+
+\begin{enumerate}
+    \item Canada, Environment and Climate Change Canada (ECCC), the Computer Research Institute of Montréal (CRIM), Ouranos, the Pacific Climate Impacts Consortium (PCIC), the Prairie Climate Centre (PCC), and HabitatSeven. (2020). Annual Values for Alberta. Retrieved November 4, 2020, from https://climatedata.ca/explore
+    /location/?loc=IAQFZ{\&}amp;location-select-temperature=
+    tg\_mean{\&}amp;location-select-precipitation=rx1day{\&}
+    amp;location-select-other=frost\_days
+    
+    \item Canada, Government of Alberta, Agriculture and Forestry. (2015). Spring Wheat Acreage and Production for Alberta Census Divisions. Retrieved November 4, 2020, from https://open.canada.ca/data/en/dataset/8ac5b6f3-acd1-4584-ab66-3e839a23c735
+    \item Canada, Government of Alberta, Agriculture and Forestry. (2015). Barley  Acreage and Production for Alberta Census Divisions. Retrieved November 4, 2020, from https://open.canada.ca/data/en/dataset/b164c813-21fc-4b8a-92f8-43c30281679e
+    \item Canada, Government of Alberta, Agriculture and Forestry. (2015). Oats  Acreage and Production for Alberta Census Divisions. Retrieved November 4, 2020, from https://open.canada.ca/data/en/dataset/88ca88ff-b7fe-47ed-8680-2ccca4c4e331
+    \item Canada, Government of Alberta, Agriculture and Forestry. (2015). Canola  Acreage and Production for Alberta Census Divisions. Retrieved November 4, 2020, from https://open.canada.ca/data/en/dataset/7e72cb89-6a90-4f0f-b4c3-1a23d13a3327
+    \item Canada, Government of Alberta, Agriculture and Forestry. (2015). All Wheat  Acreage and Production for Alberta Census Divisions. Retrieved November 4, 2020, from https://open.canada.ca/data/en/dataset/ffbcec87-dec8-4e52-9053-8c8804826a03
+    \item Canada, Government of Alberta, Agriculture and Forestry. (2015). Tame Hay  Acreage and Production for Alberta Census Divisions. Retrieved November 4, 2020, from https://open.canada.ca/data/en/dataset/30e67b02-e977-416c-9326-dbad9b14e58e
+    \item Climtedata.ca. (2020). Alberta, AB. Retrieved December 13, 2020, from 
+    
+    https://climatedata.ca/ explore/location/?loc=IAQFZ
+\end{enumerate}
+
+\textbf{Images:}\\
+\begin{enumerate}
+    \item Golbez. (2006, January 1). Canada Provinces [Digital image]. Retrieved December, 2020, from
+    
+    https://commons.wikimedia.org/wiki/File:Canada\_provinces\_blank.png
+    \item Castelazo, T. (2007, December 6). Drought [Dry ground in the Sonoran Desert, Sonora, Mexico.]. Retrieved December, 2020, from https://commons.wikimedia.org/wiki/File:Drought.jpg
+    \item USDA Forest Service. (2004, February 17). Northwest Crown Fire Experiment [Northwest Crown Fire Experiment, Northwest Territories, Canada]. Retrieved December, 2020, from
+    
+    https://commons.wikimedia.org/wiki/File:Northwest\_Crown\_Fire\_Experiment.png
+    \item Benko, A. (2005, May 16). Rain on grass2 [Dew on grass]. Retrieved December, 2020, from
+    
+    https://commons.wikimedia.org/wiki/File:Rain\_on\_grass2.jpg
+    \item Bluemoose. (August, 20). Wheat close-up [Close-up view of Wheat]. Retrieved December, 2020, from https://commons.wikimedia.org/wiki/File:Wheat\_close-up.JPG
+    \item Lavin, M. (2012, June 29). Brassica rapa (7490656028) [The inflorescences and flowers are very similar among the different species and varieties of Brassica (e.g., four large yellow petals alternating with four sepals and six stamens, numbers distinctive to the mustard family Brassicaceae).]. Retrieved December, 2020, from https://commons.wikimedia.org/wiki/File:Brassica\_rapa\_(7490656028).jpg
+    \item Beobachter, S. (2018, July 1). Almost ripe - Flickr - Stiller Beobachter (1) [Barley from Germany]. Retrieved December, 2020, from https://commons.wikimedia.org/wiki/File:Almost\_ripe\_-\_Flickr\_-\_Stiller\_Beobachter\_(1).jpg
+\end{enumerate}
+
+\textbf{Programming documentation:}\\
+\begin{enumerate}
+    \item Pygame developers. (2020). Pygame Front Page (Documentation). Retrieved December, 2000-2020, from https://www.pygame.org/docs/
+    \item The Matplotlib development team. (2020). Visualization with Python¶. Retrieved December 13, 2020, from https://matplotlib.org/
+\end{enumerate}
+
+
+% NOTE: LaTeX does have a built-in way of generating references automatically,
+% but it's a bit tricky to use so we STRONGLY recommend writing your references
+% manually, using a standard academic format like APA or MLA.
+% (E.g., https://owl.purdue.edu/owl/research_and_citation/apa_style/apa_formatting_and_style_guide/general_format.html)
+
+\end{document}
